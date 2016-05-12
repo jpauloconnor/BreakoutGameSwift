@@ -16,8 +16,12 @@ let GameMessageName = "gameMessage"
 
 class GameScene: SKScene {
   
+  var isFingerOnPaddle = false
+    
   override func didMoveToView(view: SKView) {
     super.didMoveToView(view)
+    
+   
     
     let borderBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
     borderBody.friction = 0
@@ -29,6 +33,15 @@ class GameScene: SKScene {
     
     
     }
-  
-  
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first
+        let touchLocation = touch!.locationInNode(self)
+        
+        if let body = physicsWorld.bodyAtPoint(touchLocation) {
+            if body.node!.name == PaddleCategoryName {
+                print("Began touch on paddle")
+                isFingerOnPaddle = true
+            }
+        }
+    }
 }
